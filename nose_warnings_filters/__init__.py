@@ -26,11 +26,9 @@ class WarningFilter(Plugin):
         Configure plugin.
         """
         for opt in options.warningfilters.split( '\n'):
-            vs = opt.split('|')
+            vs = [s.strip() for s in opt.split('|')]
             vs[2] = getattr(builtins, vs[2])
             warnings.filterwarnings(*vs)
-            #warnings.filterwarnings('default', message='.*', category=Warning, module='IPy.*')
-
 
         super(WarningFilter, self).configure(options, conf)
 
