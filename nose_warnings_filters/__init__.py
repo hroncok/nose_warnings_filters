@@ -4,7 +4,7 @@ Nose plugin to add warnings filters (turn them into error) using nose.cfg file.
 """
 
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
 from nose.plugins import Plugin
