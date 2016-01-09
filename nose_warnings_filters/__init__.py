@@ -12,9 +12,9 @@ import warnings
 import sys
 
 if sys.version_info < (3,):
-    import builtins
-else:
     builtins = __builtins__
+else:
+    import builtins
 
 
 class WarningFilter(Plugin):
