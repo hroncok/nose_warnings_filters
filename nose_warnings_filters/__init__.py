@@ -4,7 +4,7 @@ Nose plugin to add warnings filters (turn them into error) using nose.cfg file.
 """
 
 
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 
 from nose.plugins import Plugin
@@ -12,9 +12,12 @@ import warnings
 import sys
 
 if sys.version_info < (3,):
-    builtins = __builtins__
+    def from_builtins(k):
+        return __builtins__[k]
 else:
     import builtins
+    def from_builtins(k):
+        return getattr(builtins,k)
 
 
 class WarningFilter(Plugin):
@@ -33,7 +36,7 @@ class WarningFilter(Plugin):
         """
         for opt in options.warningfilters.split( '\n'):
             vs = [s.strip() for s in opt.split('|')]
-            vs[2] = getattr(builtins, vs[2])
+            vs[2] = from_builtins(vs[2])
             warnings.filterwarnings(*vs)
 
         super(WarningFilter, self).configure(options, conf)
@@ -58,3 +61,4 @@ class WarningFilterRunner(object):
 
 
         
+
