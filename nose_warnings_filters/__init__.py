@@ -9,7 +9,13 @@ __version__ = '0.0.2'
 
 from nose.plugins import Plugin
 import warnings
-import builtins
+import sys
+
+if sys.version_info < (3,):
+    import builtins
+else:
+    builtins = __builtins__
+
 
 class WarningFilter(Plugin):
     def options(self, parser, env):

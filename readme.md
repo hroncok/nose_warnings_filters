@@ -1,8 +1,9 @@
 
-Allow to inject warning filters during nosetest.
+Allow to inject warning filters during `nosetest`.
 
 
-Put the the same arguments as `warnings.filterwarnings` in `nose.cfg` separated by pipes `|`.
+Put the same arguments as `warnings.filterwarnings` in `setup.cfg` at the root of your project.
+Separated each argument by pipes `|`, one filter per line.
 Whitespace are stripped.
 
 for example:
@@ -14,4 +15,5 @@ warningfilters=default         |.*            |DeprecationWarning |notebook.*
                error           |.*warn.*      |DeprecationWarning |notebook.services.contents.manager*
 ```
 
-run the tests with `nosetests -c nose.cfg`
+If you prefer another name for the configuration file, you can tell nose to load
+the configuration using the `-c` flag: run the tests with `nosetests -c nose.cfg`.
