@@ -11,6 +11,41 @@ from nose.plugins import Plugin
 import warnings
 import sys
 
+
+def import_item(name):
+    """Import and return ``bar`` given the string ``foo.bar``.
+
+    Calling ``bar = import_item("foo.bar")`` is the functional equivalent of
+    executing the code ``from foo import bar``.
+
+    Parameters
+    ----------
+    name : string
+      The fully qualified name of the module/package being imported.
+
+    Returns
+    -------
+    mod : module object
+       The module that was imported.
+    """
+    if sys.version_info < (3,):
+        if not isinstance(name, bytes):
+            name =  name.encode()
+    parts = name.rsplit('.', 1)
+    if len(parts) == 2:
+        # called with 'foo.bar....'
+        package, obj = parts
+        module = __import__(package, fromlist=[obj])
+        try:
+            pak = getattr(module, obj)
+        except AttributeError:
+            raise ImportError('No module named %s' % obj)
+        return pak
+    else:
+        # called with un-dotted string
+        return __import__(parts[0])
+
+
 if sys.version_info < (3,):
     def from_builtins(k):
         return __builtins__[k]
@@ -35,9 +70,12 @@ class WarningFilter(Plugin):
         Configure plugin.
         """
         for opt in options.warningfilters.split( '\n'):
-            vs = [s.strip() for s in opt.split('|')]
-            vs[2] = from_builtins(vs[2])
-            warnings.filterwarnings(*vs)
+            values = [s.strip() for s in opt.split('|')]
+            if '.' in values[2]:
+                values[2] = import_item(values[2])
+            else:
+                values[2] = from_builtins(values[2])
+            warnings.filterwarnings(*values)
 
         super(WarningFilter, self).configure(options, conf)
 
