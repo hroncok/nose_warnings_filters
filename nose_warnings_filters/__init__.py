@@ -6,6 +6,9 @@ Nose plugin to add warnings filters (turn them into error) using nose.cfg file.
 
 __version__ = '0.0.5'
 
+class MyWarningError(Warning):pass
+class MyWarningIgnore(Warning):pass
+
 
 from nose.plugins import Plugin
 import warnings
