@@ -17,3 +17,32 @@ warningfilters=default         |.*            |DeprecationWarning |notebook.*
 
 If you prefer another name for the configuration file, you can tell nose to load
 the configuration using the `-c` flag: run the tests with `nosetests -c nose.cfg`.
+
+
+# details configuration. 
+
+Each line of warning filter is separated in maximum 4 sections, that match the first 4 sections of `filterwarnings`:
+
+```
+filterwarnings(action, message="", category=Warning, module="", lineno=0, append=False)
+```
+fields 2 to 4 can be omitted, ie to say 1 line can be of the following form:
+
+```
+action
+action| message
+action| message | category
+action| message | category | module
+```
+
+the value of each fields is treated the same as for `filterwarnigns` except:
+    - whitespace are trimmed. 
+    - if the `category` has dots, the corresponding class try to be imported.
+      If it does not have dots, the name is looked up in `builtins` or
+      `__builtins__`
+
+
+
+
+
+
