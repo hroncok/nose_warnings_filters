@@ -6,13 +6,15 @@ Nose plugin to add warnings filters (turn them into error) using nose.cfg file.
 
 __version__ = '0.0.5'
 
-class MyWarningError(Warning):pass
-class MyWarningIgnore(Warning):pass
+
 
 
 from nose.plugins import Plugin
 import warnings
 import sys
+import logging
+
+log = logging.getLogger()
 
 
 def import_item(name):
@@ -75,10 +77,19 @@ class WarningFilter(Plugin):
         for opt in options.warningfilters.split( '\n'):
             values = [s.strip() for s in opt.split('|')]
             if '.' in values[2]:
-                values[2] = import_item(values[2])
+                try:
+                    values[2] = import_item(values[2])
+                except ImportError:
+                    log.warning('The following config value seem to be wrong: %s'%opt, exc_info=True)
+                    continue
             else:
                 values[2] = from_builtins(values[2])
-            warnings.filterwarnings(*values)
+
+            try:
+                warnings.filterwarnings(*values)
+            except AssertionError:
+                log.warning('The following configuration option seem to use an error: %s' % opt, exc_info=True)
+
 
         super(WarningFilter, self).configure(options, conf)
 
