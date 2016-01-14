@@ -60,6 +60,8 @@ else:
         return getattr(builtins,k)
 
 
+class InvalidConfig(Exception):pass
+
 class WarningFilter(Plugin):
     def options(self, parser, env):
         """
@@ -74,13 +76,16 @@ class WarningFilter(Plugin):
         """
         Configure plugin.
         """
-        for opt in options.warningfilters.split( '\n'):
+        invalid_config = False
+        for opt in options.warningfilters.split('\n'):
             values = [s.strip() for s in opt.split('|')]
+            # if message empty match all messages.
             if '.' in values[2]:
                 try:
                     values[2] = import_item(values[2])
                 except ImportError:
                     log.warning('The following config value seem to be wrong: %s'%opt, exc_info=True)
+                    invalid_config = True
                     continue
             else:
                 values[2] = from_builtins(values[2])
@@ -89,6 +94,10 @@ class WarningFilter(Plugin):
                 warnings.filterwarnings(*values)
             except AssertionError:
                 log.warning('The following configuration option seem to use an error: %s' % opt, exc_info=True)
+                invalid_config = True
+
+        if invalid_config:
+            raise InvalidConfig('One or more configuration option where wrong, aborting.')
 
 
         super(WarningFilter, self).configure(options, conf)
