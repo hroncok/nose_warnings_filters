@@ -23,7 +23,7 @@ the configuration using the `-c` flag: run the tests with `nosetests -c nose.cfg
 
 Each line of warning filter is separated in maximum 4 sections, that match the first 4 sections of `filterwarnings`:
 
-```
+```python
 filterwarnings(action, message="", category=Warning, module="", lineno=0, append=False)
 ```
 fields 2 to 4 can be omitted, ie to say 1 line can be of the following form:
