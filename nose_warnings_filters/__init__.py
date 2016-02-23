@@ -4,7 +4,7 @@ Nose plugin to add warnings filters (turn them into error) using nose.cfg file.
 """
 
 
-__version__ = '0.0.7'
+__version__ = '0.1.0'
 
 
 
@@ -77,6 +77,8 @@ class WarningFilter(Plugin):
         Configure plugin.
         """
         invalid_config = False
+        if not getattr(options, 'warningfilters', None):
+            return
         for opt in options.warningfilters.split('\n'):
             values = [s.strip() for s in opt.split('|')]
             # if message empty match all messages.
