@@ -8,4 +8,6 @@ before_install:
 install:
     - flit install
 script:
+    - python -c 'import nose_warnings_filters.tests as t ; print(t.__file__)'
+    - python -c 'import nose_warnings_filters.tests.utils as t ; print(t.__file__)'
     - nosetests -c setup.cfg
