@@ -43,6 +43,11 @@ the value of each fields is treated the same as for `filterwarnigns` except:
 
 
 
+# test are failing
 
+For some reasons in some systems tests are failing; it seem that this package
+have difficulty to self-test. That's likely due to the fact that the tested
+package need to be in different namespaces, and by self-testing we break this
+assumption. 
 
 
