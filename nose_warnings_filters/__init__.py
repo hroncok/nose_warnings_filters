@@ -13,6 +13,8 @@ from nose.plugins import Plugin
 import warnings
 import sys
 import logging
+import nose_warnings_filters.testing.utils as u
+u is u
 
 log = logging.getLogger()
 
