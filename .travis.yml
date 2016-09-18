@@ -1,11 +1,18 @@
-
 language: python
+env:
+    - FLIT=true
+    - FLIT=false
+
 python:
     - 3.5
     - 3.4
 before_install:
     - pip install flit nose
 install:
-    - flit install
+    - if [$FLIT]; then 
+        flit install
+      else
+        pip install . ;
+      fi
 script:
     - nosetests -c setup.cfg
