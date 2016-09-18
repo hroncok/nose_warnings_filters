@@ -9,8 +9,8 @@ python:
 before_install:
     - pip install flit nose
 install:
-    - if [$FLIT]; then 
-        flit install
+    - if [ "$FLIT"=="true" ]; then 
+        flit install;
       else
         pip install . ;
       fi
