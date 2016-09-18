@@ -14,5 +14,6 @@ def test_ignore():
         nt.assert_equals(w, [])
 
 def test_error():
+    print(dir(utils), type(utils), utils, utils)
     with nt.assert_raises(utils.MyWarningError):
         warnings.warn('This should error', utils.MyWarningError)
