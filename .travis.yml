@@ -6,9 +6,6 @@ python:
 before_install:
     - pip install flit nose
 install:
-    - flit install
+    - flit install --symlink
 script:
-    - cd ..
-    - python -c 'import nose_warnings_filters.tests as t ; print(t.__file__)'
-    - python -c 'import nose_warnings_filters.tests.utils as t ; print(t.__file__)'
-    - cd ..; nosetests -c nose_warnings_filters/setup.cfg
+    - nosetests -c setup.cfg
