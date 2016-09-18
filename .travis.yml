@@ -4,10 +4,12 @@ python:
     - 3.5
     - 3.4
 before_install:
+    - pip uninstall nose_warnings_filters
     - pip install flit nose
 install:
     - flit install
 script:
+    - cd ..
     - python -c 'import nose_warnings_filters.tests as t ; print(t.__file__)'
     - python -c 'import nose_warnings_filters.tests.utils as t ; print(t.__file__)'
-    - nosetests -c setup.cfg
+    - cd ..; nosetests -c nose_warnings_filters/setup.cfg
