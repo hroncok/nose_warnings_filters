@@ -4,7 +4,6 @@ python:
     - 3.5
     - 3.4
 before_install:
-    - pip uninstall nose_warnings_filters
     - pip install flit nose
 install:
     - flit install
