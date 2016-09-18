@@ -6,6 +6,6 @@ python:
 before_install:
     - pip install flit nose
 install:
-    - flit install --symlink
+    - flit install
 script:
     - nosetests -c setup.cfg
