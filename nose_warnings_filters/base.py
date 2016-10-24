@@ -73,7 +73,7 @@ class WarningFilter(Plugin):
         for opt in options.warningfilters.split('\n'):
             values = [s.strip() for s in opt.split('|')]
             # if message empty match all messages.
-            if '.' in values[2]:
+            if len(values) >= 2 and '.' in values[2]:
                 try:
                     values[2] = import_item(values[2])
                 except ImportError:
