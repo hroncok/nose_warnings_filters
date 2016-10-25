@@ -54,6 +54,7 @@ else:
 class InvalidConfig(Exception):pass
 
 class WarningFilter(Plugin):
+
     def options(self, parser, env):
         """
         Add options to command line.
@@ -73,16 +74,16 @@ class WarningFilter(Plugin):
         for opt in options.warningfilters.split('\n'):
             values = [s.strip() for s in opt.split('|')]
             # if message empty match all messages.
-            if len(values) >= 2 and '.' in values[2]:
-                try:
-                    values[2] = import_item(values[2])
-                except ImportError:
-                    log.warning('The following config value seem to be wrong: %s'%opt, exc_info=True)
-                    invalid_config = True
-                    continue
-            else:
-                values[2] = from_builtins(values[2])
-
+            if len(values) >= 2 :
+                if '.' in values[2]:
+                    try:
+                        values[2] = import_item(values[2])
+                    except ImportError:
+                        log.warning('The following config value seem to be wrong: %s'%opt, exc_info=True)
+                        invalid_config = True
+                        continue
+                else:
+                    values[2] = from_builtins(values[2])
             try:
                 warnings.filterwarnings(*values)
             except AssertionError:
