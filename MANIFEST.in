@@ -1,0 +1,3 @@
+include LICENSE
+include entry_points.txt
+include readme.md
